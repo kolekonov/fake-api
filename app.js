@@ -3,12 +3,23 @@ let express = require('express');
 let path = require('path');
 let cookieParser = require('cookie-parser');
 let logger = require('morgan');
+let cors = require('cors');
 
 let indexRouter = require('./routes/index');
 let usersRouter = require('./routes/users');
 let productsRouter = require('./routes/products');
 
 let app = express();
+
+
+let corsOptions = {
+  origin: 'http://localhost:3000/',
+  optionsSuccessStatus: 200
+}
+
+app.use(cors({
+  origin: 'http://localhost:3000/',
+}));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -23,6 +34,20 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/products', productsRouter);
+
+app.get('/test/', cors(corsOptions), function (req, res, next) {
+  // res.json({msg: 'This is CORS-enabled for a Single Route'})
+  
+  const products = {
+    id: 1,
+    image: '/public/images/product1.png',
+    title: 'Cantilever chair',
+    scu: ['green', 'pink', 'blue'],
+    article: 'Y523201',
+    price: 42.00,
+  };
+  res.send(JSON.stringify(products));
+})
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
