@@ -34,7 +34,7 @@ router.get('/', function(req, res, next) {
         title: 'Cantilever chair',
         scu: ['pink', 'blue', 'green'],
         article: 'Y523201',
-        price: 48.00,
+        price: 49.00,
     },
   ];
   res.send(JSON.stringify(products));
